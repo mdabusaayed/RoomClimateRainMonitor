@@ -7,6 +7,7 @@
 #include <Adafruit_SH110X.h>
 #include <Adafruit_NeoPixel.h>
 #include <Adafruit_BMP280.h>
+#include "wifipassword.h"
 
 #define SCREEN_WIDTH 128
 #define SCREEN_HEIGHT 64
@@ -27,8 +28,6 @@ DHT dht(DHTPIN, DHTTYPE);
 Adafruit_BMP280 bmp;
 bool bmpOK = false;
 
-const char* ssid = "project";
-const char* password = "12341234";
 const char* mqtt_server = "broker.hivemq.com";
 
 WiFiClient espClient;
