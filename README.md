@@ -28,14 +28,17 @@ Data is displayed locally on the OLED display and published to HiveMQ using MQTT
 
 ## Wiring
 
-| Device              | Pin    |
-| ------------------- | ------ |
-| DHT11               | D5     |
-| Rain Sensor Digital | D6     |
-| Rain Sensor Analog  | A0     |
-| Buzzer              | GPIO15 |
-| NeoPixel LEDs       | GPIO2  |
-| OLED                | I²C    |
+
+| Device | Connection |
+|----------|----------|
+| DHT11 | D5 (GPIO14) |
+| Rain Sensor Digital Output (DO) | D6 (GPIO12) |
+| Rain Sensor Analog Output (AO) | A0 |
+| BMP280 | I²C (SDA = D2/GPIO4, SCL = D1/GPIO5) |
+| OLED SH1106 | I²C (SDA = D2/GPIO4, SCL = D1/GPIO5) |
+| Buzzer | D8 (GPIO15) |
+| NeoPixel LEDs | D4 (GPIO2) |
+
 
 ---
 
