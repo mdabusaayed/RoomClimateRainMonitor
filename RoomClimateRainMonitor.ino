@@ -102,18 +102,27 @@ void showDisplay(float temp, float hum, float pressure, bool isRaining, int anal
 
 void setup() {
   Serial.begin(115200);
-  delay(1000);
 
-  pinMode(rainDigitalPin, INPUT);
-  pinMode(BUZZER_PIN, OUTPUT);
-
-  dht.begin();
   Wire.begin();
 
   if (!display.begin(OLED_ADDR, true)) {
     Serial.println("SH1106 init failed");
     while (true) delay(1000);
   }
+
+  display.clearDisplay();
+  display.setTextColor(SH110X_WHITE);
+  display.setTextSize(1);
+  display.setCursor(0, 20);
+  display.println("System starting...");
+  display.display();
+
+  pinMode(rainDigitalPin, INPUT);
+  pinMode(BUZZER_PIN, OUTPUT);
+
+  noTone(BUZZER_PIN);
+
+  dht.begin();
 
   bmpOK = bmp.begin(0x76);
 
@@ -123,6 +132,11 @@ void setup() {
 
   WiFi.begin(ssid, password);
 
+  display.clearDisplay();
+  display.setCursor(0, 20);
+  display.println("Connecting WiFi...");
+  display.display();
+
   Serial.print("Connecting WiFi");
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
@@ -131,6 +145,12 @@ void setup() {
 
   Serial.println();
   Serial.println("WiFi Connected");
+
+  display.clearDisplay();
+  display.setCursor(0, 20);
+  display.println("WiFi Connected");
+  display.display();
+  delay(500);
 
   client.setServer(mqtt_server, 1883);
 }
@@ -176,15 +196,15 @@ void loop() {
     // Combined MQTT Topic
     char allData[200];
 
-snprintf(allData, sizeof(allData),
-         "Temperature=%.1fC | Humidity=%d%%  ||  Pressure=%.1fhPa | %s",
-         temp,
-         (int)hum,
-         pressure,
-         rainStatus);
+    snprintf(allData, sizeof(allData),
+            "Temperature=%.1fC | Humidity=%d%%  ||  Pressure=%.1fhPa | %s",
+            temp,
+            (int)hum,
+            pressure,
+            rainStatus);
 
-client.publish("home/4sensors/datatogether", allData);
-client.publish("amiable", allData);
+    client.publish("home/4sensors/datatogether", allData);
+    client.publish("amiable", allData);
 
     // Serial Monitor Output
     Serial.print("Temperature: ");
